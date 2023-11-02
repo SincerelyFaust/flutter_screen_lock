@@ -63,6 +63,7 @@ Future<void> screenLock({
       pageBuilder: (context, animation, secondaryAnimation) => WillPopScope(
         onWillPop: () async => canCancel && onCancelled == null,
         child: ScreenLock(
+          
           correctString: correctString,
           onUnlocked: onUnlocked ?? Navigator.of(context).pop,
           onOpened: onOpened,

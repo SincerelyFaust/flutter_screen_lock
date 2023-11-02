@@ -12,6 +12,7 @@ class ScreenLock extends StatefulWidget {
     super.key,
     required String this.correctString,
     required VoidCallback this.onUnlocked,
+    this.backgroundWidget,
     this.onOpened,
     this.onValidate,
     this.onCancelled,
@@ -67,7 +68,7 @@ class ScreenLock extends StatefulWidget {
     this.inputController,
     this.secretsBuilder,
     this.useBlur = true,
-    this.useLandscape = true,
+    this.useLandscape = true,  this.backgroundWidget,
   })  : correctString = null,
         title = title ?? const Text('Please enter new passcode.'),
         confirmTitle =
@@ -123,6 +124,8 @@ class ScreenLock extends StatefulWidget {
 
   /// Heading title for ScreenLock.
   final Widget title;
+
+  final Widget Function(Widget)?  backgroundWidget;
 
   /// Heading confirm title for ScreenLock.
   final Widget? confirmTitle;
@@ -366,28 +369,34 @@ class _ScreenLockState extends State<ScreenLock> {
       );
     }
 
+    Widget buildContentChild (Orientation orientation){
+      return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flex(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                direction: orientations[orientation]!,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildHeadingText(),
+                      buildSecrets(),
+                    ],
+                  ),
+                  buildKeyPad(),
+                ],
+              ),
+              if (widget.footer != null) widget.footer!,
+            ],
+          );
+    }
+
     Widget buildContent() {
       return OrientationBuilder(
-        builder: (context, orientation) => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flex(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              direction: orientations[orientation]!,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildHeadingText(),
-                    buildSecrets(),
-                  ],
-                ),
-                buildKeyPad(),
-              ],
-            ),
-            if (widget.footer != null) widget.footer!,
-          ],
-        ),
+        builder: (context, orientation) => widget.backgroundWidget!=null ?  widget.backgroundWidget!(
+          buildContentChild(orientation),
+        ) : buildContentChild(orientation)
       );
     }
 
@@ -405,9 +414,7 @@ class _ScreenLockState extends State<ScreenLock> {
     return Theme(
       data: (widget.config ?? ScreenLockConfig.defaultConfig).toThemeData(),
       child: Scaffold(
-        body: SafeArea(
-          child: buildContentWithBlur(useBlur: widget.useBlur),
-        ),
+        body: buildContentWithBlur(useBlur: widget.useBlur),
       ),
     );
   }
