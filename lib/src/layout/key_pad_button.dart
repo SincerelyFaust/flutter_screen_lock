@@ -25,7 +25,6 @@ class KeyPadButton extends StatelessWidget {
         config: KeyPadButtonConfig(
           size: config?.size,
           fontSize: config?.fontSize,
-          foregroundColor: config?.foregroundColor,
           backgroundColor: Colors.transparent,
           buttonStyle: config?.buttonStyle?.copyWith(
             backgroundColor:
