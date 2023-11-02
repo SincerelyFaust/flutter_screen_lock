@@ -6,6 +6,7 @@ class KeyPadButtonConfig {
     double? fontSize,
     double? actionFontSize,
     this.foregroundColor,
+    this.textStyle,
     this.backgroundColor,
     this.buttonStyle,
   })  : size = size ?? 68,
@@ -16,6 +17,8 @@ class KeyPadButtonConfig {
 
   /// Button font size.
   final double fontSize;
+
+  final TextStyle? textStyle;
 
   /// Button foreground (text) color.
   final Color? foregroundColor;
@@ -29,10 +32,7 @@ class KeyPadButtonConfig {
   /// Returns this config as a [ButtonStyle].
   ButtonStyle toButtonStyle() {
     ButtonStyle composed = OutlinedButton.styleFrom(
-      textStyle: TextStyle(
-        fontSize: fontSize,
-        overflow: TextOverflow.fade,
-      ),
+      textStyle: textStyle,
       foregroundColor: foregroundColor,
       backgroundColor: backgroundColor,
     );
@@ -54,8 +54,10 @@ class KeyPadButtonConfig {
     Color? foregroundColor,
     Color? backgroundColor,
     ButtonStyle? buttonStyle,
+    TextStyle? textStyle,
   }) {
     return KeyPadButtonConfig(
+      textStyle: textStyle ?? this.textStyle,
       size: size ?? this.size,
       fontSize: fontSize ?? this.fontSize,
       foregroundColor: foregroundColor ?? this.foregroundColor,
