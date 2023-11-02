@@ -37,8 +37,8 @@ class KeyPadButtonConfig {
     if (buttonStyle != null) {
       return buttonStyle!.copyWith(
         textStyle: composed.textStyle,
-        
         backgroundColor: composed.backgroundColor,
+        foregroundColor: composed.foregroundColor,
       );
     } else {
       return composed;
