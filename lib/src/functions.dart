@@ -34,6 +34,7 @@ Future<void> screenLock({
   VoidCallback? onUnlocked,
   VoidCallback? onOpened,
   ValidationCallback? onValidate,
+
   VoidCallback? onCancelled,
   ValueChanged<int>? onError,
   ValueChanged<int>? onMaxRetries,
@@ -41,6 +42,7 @@ Future<void> screenLock({
   Duration retryDelay = Duration.zero,
   Widget? title,
   ScreenLockConfig? config,
+  Widget Function(Widget)? bgWidget,
   SecretsConfig? secretsConfig,
   KeyPadConfig? keyPadConfig,
   DelayBuilderCallback? delayBuilder,
@@ -63,7 +65,7 @@ Future<void> screenLock({
       pageBuilder: (context, animation, secondaryAnimation) => WillPopScope(
         onWillPop: () async => canCancel && onCancelled == null,
         child: ScreenLock(
-          
+          backgroundWidget: bgWidget,
           correctString: correctString,
           onUnlocked: onUnlocked ?? Navigator.of(context).pop,
           onOpened: onOpened,

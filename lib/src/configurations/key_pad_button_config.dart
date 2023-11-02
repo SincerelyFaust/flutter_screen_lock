@@ -32,10 +32,12 @@ class KeyPadButtonConfig {
     ButtonStyle composed = OutlinedButton.styleFrom(
       textStyle: textStyle,
       backgroundColor: backgroundColor,
+      foregroundColor: textStyle?.color
     );
     if (buttonStyle != null) {
       return buttonStyle!.copyWith(
         textStyle: composed.textStyle,
+        
         backgroundColor: composed.backgroundColor,
       );
     } else {
