@@ -146,7 +146,7 @@ Future<void> screenLockCreate({
   ValueChanged<int>? onError,
   ValueChanged<int>? onMaxRetries,
   int maxRetries = 0,
-  int digits = 4,
+  int digits = 6,
   Duration retryDelay = Duration.zero,
   Widget? title,
   Widget? confirmTitle,

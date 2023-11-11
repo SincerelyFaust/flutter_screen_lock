@@ -52,7 +52,7 @@ class ScreenLock extends StatefulWidget {
     this.onError,
     this.onMaxRetries,
     this.maxRetries = 0,
-    this.digits = 4,
+    this.digits = 6,
     this.retryDelay = Duration.zero,
     Widget? title,
     Widget? confirmTitle,
