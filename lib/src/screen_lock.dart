@@ -392,7 +392,7 @@ class _ScreenLockState extends State<ScreenLock> {
               if (widget.footer != null) widget.footer!,
             ],
           ),
-          if (widget.header != null) widget.header!,
+          if (widget.header != null) Positioned(top: kToolbarHeight, child: widget.header!),
         ],
       );
     }
