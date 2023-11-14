@@ -371,7 +371,7 @@ class _ScreenLockState extends State<ScreenLock> {
 
     Widget buildContentChild(Orientation orientation) {
       return Column(
-        mainAxisAlignment:widget.header != null ?   MainAxisAlignment.center : MainAxisAlignment.start ,
+        mainAxisAlignment: widget.header != null ? MainAxisAlignment.start : MainAxisAlignment.center,
         children: [
           if (widget.header != null)
             Padding(
