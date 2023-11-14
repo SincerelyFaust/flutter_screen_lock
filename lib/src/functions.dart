@@ -34,7 +34,6 @@ Future<void> screenLock({
   VoidCallback? onUnlocked,
   VoidCallback? onOpened,
   ValidationCallback? onValidate,
-
   VoidCallback? onCancelled,
   ValueChanged<int>? onError,
   ValueChanged<int>? onMaxRetries,
@@ -70,8 +69,7 @@ Future<void> screenLock({
           onUnlocked: onUnlocked ?? Navigator.of(context).pop,
           onOpened: onOpened,
           onValidate: onValidate,
-          onCancelled:
-              canCancel ? onCancelled ?? Navigator.of(context).pop : null,
+          onCancelled: canCancel ? onCancelled ?? Navigator.of(context).pop : null,
           onError: onError,
           onMaxRetries: onMaxRetries,
           maxRetries: maxRetries,
@@ -92,8 +90,7 @@ Future<void> screenLock({
           useLandscape: useLandscape,
         ),
       ),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-          SlideTransition(
+      transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(0.0, 2.4),
           end: Offset.zero,
@@ -130,6 +127,7 @@ Future<void> screenLock({
 /// - `customizedButtonChild`: Child for bottom left side button.
 /// - `customizedButtonTap`: Tapped for left side lower button.
 /// - `footer`: Add a Widget to the footer.
+/// - `header`: Add a Widget to the header.
 /// - `cancelButton`: Change the child widget for the delete button.
 /// - `deleteButton`: Change the child widget for the delete button.
 /// - `inputController`: Control inputs externally.
@@ -157,6 +155,7 @@ Future<void> screenLockCreate({
   Widget? customizedButtonChild,
   VoidCallback? customizedButtonTap,
   Widget? footer,
+  Widget? header,
   Widget? cancelButton,
   Widget? deleteButton,
   InputController? inputController,
@@ -176,8 +175,7 @@ Future<void> screenLockCreate({
           onConfirmed: onConfirmed,
           onOpened: onOpened,
           onValidate: onValidate,
-          onCancelled:
-              canCancel ? onCancelled ?? Navigator.of(context).pop : null,
+          onCancelled: canCancel ? onCancelled ?? Navigator.of(context).pop : null,
           onError: onError,
           onMaxRetries: onMaxRetries,
           maxRetries: maxRetries,
@@ -192,6 +190,7 @@ Future<void> screenLockCreate({
           customizedButtonChild: customizedButtonChild,
           customizedButtonTap: customizedButtonTap,
           footer: footer,
+          header: header,
           cancelButton: cancelButton,
           deleteButton: deleteButton,
           inputController: inputController,
@@ -200,8 +199,7 @@ Future<void> screenLockCreate({
           useLandscape: useLandscape,
         ),
       ),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-          SlideTransition(
+      transitionsBuilder: (context, animation, secondaryAnimation, child) => SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(0.0, 2.4),
           end: Offset.zero,

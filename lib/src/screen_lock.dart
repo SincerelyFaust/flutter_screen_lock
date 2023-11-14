@@ -28,6 +28,7 @@ class ScreenLock extends StatefulWidget {
     this.customizedButtonChild,
     this.customizedButtonTap,
     this.footer,
+    this.header,
     this.cancelButton,
     this.deleteButton,
     this.inputController,
@@ -63,16 +64,17 @@ class ScreenLock extends StatefulWidget {
     this.customizedButtonChild,
     this.customizedButtonTap,
     this.footer,
+    this.header,
     this.cancelButton,
     this.deleteButton,
     this.inputController,
     this.secretsBuilder,
     this.useBlur = true,
-    this.useLandscape = true,  this.backgroundWidget,
+    this.useLandscape = true,
+    this.backgroundWidget,
   })  : correctString = null,
         title = title ?? const Text('Please enter new passcode.'),
-        confirmTitle =
-            confirmTitle ?? const Text('Please confirm new passcode.'),
+        confirmTitle = confirmTitle ?? const Text('Please confirm new passcode.'),
         onUnlocked = null,
         secretsConfig = secretsConfig ?? const SecretsConfig(),
         assert(maxRetries > -1);
@@ -125,7 +127,7 @@ class ScreenLock extends StatefulWidget {
   /// Heading title for ScreenLock.
   final Widget title;
 
-  final Widget Function(Widget)?  backgroundWidget;
+  final Widget Function(Widget)? backgroundWidget;
 
   /// Heading confirm title for ScreenLock.
   final Widget? confirmTitle;
@@ -147,6 +149,9 @@ class ScreenLock extends StatefulWidget {
 
   /// Footer widget.
   final Widget? footer;
+
+  /// Header widget.
+  final Widget? header;
 
   /// Cancel button widget.
   final Widget? cancelButton;
@@ -171,14 +176,12 @@ class ScreenLock extends StatefulWidget {
 }
 
 class _ScreenLockState extends State<ScreenLock> {
-  late InputController inputController =
-      widget.inputController ?? InputController();
+  late InputController inputController = widget.inputController ?? InputController();
 
   /// Logging retries.
   int retries = 1;
 
-  final StreamController<Duration> inputDelayController =
-      StreamController.broadcast();
+  final StreamController<Duration> inputDelayController = StreamController.broadcast();
 
   bool inputDelayed = false;
   bool enabled = true;
@@ -212,8 +215,7 @@ class _ScreenLockState extends State<ScreenLock> {
       }
     });
 
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => widget.onOpened?.call());
+    WidgetsBinding.instance.addPostFrameCallback((_) => widget.onOpened?.call());
   }
 
   @override
@@ -292,8 +294,7 @@ class _ScreenLockState extends State<ScreenLock> {
       if (widget.correctString == null) {
         return StreamBuilder<bool>(
           stream: inputController.confirmed,
-          builder: (context, snapshot) =>
-              snapshot.data == true ? widget.confirmTitle! : child,
+          builder: (context, snapshot) => snapshot.data == true ? widget.confirmTitle! : child,
         );
       }
       return child;
@@ -331,8 +332,7 @@ class _ScreenLockState extends State<ScreenLock> {
   Widget build(BuildContext context) {
     final orientations = <Orientation, Axis>{
       Orientation.portrait: Axis.vertical,
-      Orientation.landscape:
-          widget.useLandscape ? Axis.horizontal : Axis.vertical,
+      Orientation.landscape: widget.useLandscape ? Axis.horizontal : Axis.vertical,
     };
 
     Widget buildSecrets() {
@@ -369,35 +369,37 @@ class _ScreenLockState extends State<ScreenLock> {
       );
     }
 
-    Widget buildContentChild (Orientation orientation){
+    Widget buildContentChild(Orientation orientation) {
       return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (widget.header != null) widget.header!,
+          Flex(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            direction: orientations[orientation]!,
             children: [
-              Flex(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                direction: orientations[orientation]!,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      buildHeadingText(),
-                      buildSecrets(),
-                    ],
-                  ),
-                  buildKeyPad(),
+                  buildHeadingText(),
+                  buildSecrets(),
                 ],
               ),
-              if (widget.footer != null) widget.footer!,
+              buildKeyPad(),
             ],
-          );
+          ),
+          if (widget.footer != null) widget.footer!,
+        ],
+      );
     }
 
     Widget buildContent() {
       return OrientationBuilder(
-        builder: (context, orientation) => widget.backgroundWidget!=null ?  widget.backgroundWidget!(
-          buildContentChild(orientation),
-        ) : buildContentChild(orientation)
-      );
+          builder: (context, orientation) => widget.backgroundWidget != null
+              ? widget.backgroundWidget!(
+                  buildContentChild(orientation),
+                )
+              : buildContentChild(orientation));
     }
 
     Widget buildContentWithBlur({required bool useBlur}) {
@@ -420,8 +422,7 @@ class _ScreenLockState extends State<ScreenLock> {
   }
 }
 
-typedef DelayBuilderCallback = Widget Function(
-    BuildContext context, Duration delay);
+typedef DelayBuilderCallback = Widget Function(BuildContext context, Duration delay);
 
 typedef SecretsBuilderCallback = Widget Function(
   BuildContext context,
