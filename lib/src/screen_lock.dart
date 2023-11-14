@@ -370,8 +370,13 @@ class _ScreenLockState extends State<ScreenLock> {
     }
 
     Widget buildContentChild(Orientation orientation) {
-      return Stack(
+      return Column(
         children: [
+          if (widget.header != null)
+            Padding(
+              padding: const EdgeInsets.only(top: kToolbarHeight),
+              child: widget.header!,
+            ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -392,7 +397,6 @@ class _ScreenLockState extends State<ScreenLock> {
               if (widget.footer != null) widget.footer!,
             ],
           ),
-          if (widget.header != null) Positioned(top: kToolbarHeight, child: widget.header!),
         ],
       );
     }
