@@ -370,25 +370,29 @@ class _ScreenLockState extends State<ScreenLock> {
     }
 
     Widget buildContentChild(Orientation orientation) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      return Stack(
         children: [
-          if (widget.header != null) widget.header!,
-          Flex(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            direction: orientations[orientation]!,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Flex(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                direction: orientations[orientation]!,
                 children: [
-                  buildHeadingText(),
-                  buildSecrets(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildHeadingText(),
+                      buildSecrets(),
+                    ],
+                  ),
+                  buildKeyPad(),
                 ],
               ),
-              buildKeyPad(),
+              if (widget.footer != null) widget.footer!,
             ],
           ),
-          if (widget.footer != null) widget.footer!,
+          if (widget.header != null) widget.header!,
         ],
       );
     }
