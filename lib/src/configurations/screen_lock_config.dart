@@ -31,7 +31,7 @@ class ScreenLockConfig {
       outlinedButtonTheme: OutlinedButtonThemeData(style: buttonStyle),
       textTheme: TextTheme(
         titleLarge: titleTextStyle,
-        bodyText2: textStyle,
+        bodyMedium: textStyle,
       ),
     );
   }
